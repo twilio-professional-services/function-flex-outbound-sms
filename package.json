@@ -1,0 +1,20 @@
+{
+  "name": "function-flex-outbound-sms",
+  "version": "0.0.0",
+  "private": true,
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "twilio-run",
+    "deploy": "twilio-run deploy"
+  },
+  "dependencies": {
+    "twilio": "^3.56",
+    "uuidv4": "^6.2.8"
+  },
+  "devDependencies": {
+    "twilio-run": "^3.0.1"
+  },
+  "engines": {
+    "node": "12"
+  }
+}
