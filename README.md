@@ -95,6 +95,15 @@ When the Function executes successfully, the following resources are created:
 When the receiving agent accepts the task in Flex, they will be joined to the chat channel and any messages they add to the chat will be sent via SMS to the customer's mobile number.
 
 # Deployment Instructions
+
+TODO: Add Twilio CLI deployment instructions
+
+## Create Serverless Service and Function
+If you have an existing Twilio Serverless Service you want to place this function in, go ahead and use it, otherwise create a new Service
+via [Functions > Services](https://www.twilio.com/console/functions/overview/services) > Create Service.
+
+Then go ahead and add a new function using the code located at `functions\flex-initiate-outbound-sms-task.js`. Click Save when done.
+
 ## Create Function Environment Variables
 Follow these steps to ensure all required environment variables are available for the Function to use:
 
@@ -115,6 +124,8 @@ Follow these steps to ensure all required Node packages are available for the Fu
       * Used in our Function to create a unique identifier for the chat channel Identity parameter
 3. Click Save at the bottom of the window if the button is enabled
     
+## Deploy the Function
+Click the Deploy All button from the Function editor, and wait for the deploy to complete.
 ## Create Direct to Task Flex Flow
 Flex Flows define how messages intended to reach the Flex UI should be handled. You can see your Flex Flows in the Twilio Console at Flex -> [Messaging](https://www.twilio.com/console/flex/numbers).
 
