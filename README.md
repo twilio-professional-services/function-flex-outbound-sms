@@ -1,3 +1,14 @@
+# Initiating Outbound SMS From Flex
+There are a number of use cases around specifically _initiating_ outbound SMS from Flex - that are not off-the-shelf capabilities within the Flex UI. Since the Flex UI reacts to Tasks, these typically originate from an inbound message coming in _from_ the customer - at which point an agent can converse with the customer via the Flex Chat UI interface. Sometimes though, we (the agent, CRM, or external system) need to be the _initiators_ of the SMS conversation.
+
+The functions in this repository provide support for initiating outbound SMS - either as an agent, via a Task (see `functions\flex-initiate-outbound-sms-task.js`) or as an external system or any other fire-and-forget message sending source (see `functions\flex-initiate-outbound-sms.js`. **NOTE:** This README presently only covers the Task creation approach, but the other function is very similar and just doesn't use a Task Flex Flow.
+
+## Example Use Cases for Both Functions
+1. Agent clicks an "SMS" button against a customer in their CRM (or a custom CRM Flex plugin). This triggers a task, which can route directly to agent via workflow filtering, and then they can send the initial message & converse in native Flex Chat UI. See `functions/flex-initiate-outbound-sms-task.js`
+2. Other enterprise system fires off an automated message, and we want this message to be part of a resulting conversation (i.e. chat channel) - even if all further messages are between customer and Studio flow. See `functions/flex-initiate-outbound-sms.js` - no task needed here)
+3. Customer types "CHAT" via SMS - to initiate a switch from an automated message system (e.g. a Studio Flex Flow mapped to a short code phone number) to a direct agent conversation (Task Flex Flow mapped to different 10DLC phone number). We can call `functions/flex-initiate-outbound-sms-task.js` from the Studio Flow - to make this happen.
+
+
 # Twilio Function: Initiate Outbound SMS Task
 
 ## Overview
