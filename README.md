@@ -15,11 +15,7 @@ To do this, the function essentially triggers the following behavior using the T
 Please review this entire README to ensure all pre-requisites are met and in place prior to using the Function.
 
 ## Future Improvements
-Note that this function does not cover all scenarios. It assumes there's no existing task (and consequently no proxy session), and so it
-*always* creates a new proxy session. A useful improvement would be to check for the existence of a Proxy Session already (maybe in the 
-Chat Channel attributes), and skip creating the session that case.
-
-There's also the idea of long-lived channels. This Flex Flow setting allows a Chat Channel to live beyond the default completion
+Long-lived channel implementation. This Flex Flow setting allows a Chat Channel to live beyond the default completion
 point, which is either when an agent ends the chat with the customer - via the Flex UI - or when the [Channel Janitor](https://www.twilio.com/docs/flex/developer/messaging/manage-flows#channel-janitor) reacts to a task finishing. 
 
 # How to use the Function

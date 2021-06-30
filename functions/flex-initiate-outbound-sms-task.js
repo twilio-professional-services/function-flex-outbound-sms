@@ -95,10 +95,29 @@ exports.handler = async function(context, event, callback) {
   }
   
   /**
-   * Creates the Flex Proxy Service session to be used for the SMS conversation.
+   * Creates the Flex Proxy Service session to be used for the SMS conversation. Reuses existing one if there
+   * is one
    */
   const createProxySession = async (chatChannelSid) => {
     let proxySession;
+
+    // Look for existing session first
+    try {
+      const proxySessions = await client.proxy.services(TWILIO_PROXY_SERVICE_SID).sessions.list();
+
+      proxySession = proxySessions.find(
+        session => session.uniqueName === chatChannelSid
+      );
+
+      if (proxySession) {
+        console.debug(`Found EXISTING Flex Proxy Session between Chat Channel SID '${chatChannelSid}' and toNumber '${toNumber}'`); 
+        return proxySession;
+      }
+    } catch (error) {
+      console.error(`Error looping through existing Flex Proxy Sessions!`, error);
+      throw error;      
+    }
+
     console.debug(`Creating Flex Proxy Session between Chat Channel SID '${chatChannelSid}' and toNumber '${toNumber}'`); 
     
     const participants = [
