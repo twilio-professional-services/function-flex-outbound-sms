@@ -186,6 +186,9 @@ curl -X POST \
       * `true` or `false`
       * Controls whether initial inbound messages will consider this flow or not
       * Using `false` since this flow is only triggered by manually creating a chat channel
+      * NOTE: If you want out-of-session messages arriving on the associated phone number (i.e. messages sent after 
+      agent completed the task) to create a new task, you'll want to set this to `true` - unless you have another flow
+      that handles this
     * FriendlyName
       * `string` value
       * Allows for easy identification of this flows purpose when looking through the list of Flex Flows

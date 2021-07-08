@@ -106,7 +106,7 @@ exports.handler = async function(context, event, callback) {
       const proxySessions = await client.proxy.services(TWILIO_PROXY_SERVICE_SID).sessions.list();
 
       proxySession = proxySessions.find(
-        session => session.uniqueName === chatChannelSid
+        session => session.uniqueName.startsWith(chatChannelSid)
       );
 
       if (proxySession) {
