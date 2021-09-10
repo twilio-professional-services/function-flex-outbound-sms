@@ -23,7 +23,7 @@ To do this, the function essentially triggers the following behavior using the T
 
 Please review this entire README to ensure all pre-requisites are met and in place prior to using the Function.
 
-## Long-Lived Considerations
+### Long-Lived Considerations
 This Flex Flow setting is covered below, and allows all Chat Channels to live beyond the default completion
 point, which is either when an agent ends the chat with the customer - via the Flex UI - or when the [Channel Janitor](https://www.twilio.com/docs/flex/developer/messaging/manage-flows#channel-janitor) reacts to a task finishing. Simply enabling this flag will allow your conversation with the customer to be retained beyond the lifecycle of the task.
 
@@ -37,8 +37,9 @@ You can invoke the Function as a JSON REST API call. The request body should be 
   "fromNumber": "+1555XXXXXXX",
   "toName": "Customer Name",
   "toNumber": "+1555XXXXXXX",
-  "sourceChatChannelSid": "CHXXXXXX"
-
+  "sourceChatChannelSid": "CHXXXXXX",
+  "initialNotificationMessage": "Hi, we're connecting you with your agent right now!",
+  "targetWorkerSid": "WKXXXXXX"
 }
 ```
 Here is an explanation of each property:
@@ -54,8 +55,12 @@ Here is an explanation of each property:
   * (Optional) If this function is being triggered from some other pre-existing chat conversation - perhaps from an automated Studio 
 flow - it may be desirable to include the source Chat Channel's SID, so that the Flex UI can be used (i.e. customized via a plugin)
 to present that historical chat channel message history to the agent (either from Flex Chat APIs or from a CRM). [We have a plugin](https://github.com/twilio-professional-services/plugin-chat-include-source-chat-channel) that does exactly this! 
+* initialNotificationMessage
+ * (Optional) If you want an immediate message to go out upon creation of the task, this is where to set that message
+* targetWorkerSid
+ * (Optional) If you want to perform [Known Agent Routing](https://www.twilio.com/docs/taskrouter/workflow-configuration/known-agent-routing) in your Taskrouter Workflow configuration (e.g. in response to an agent clicking a CRM button to initiate a Flex SMS conversation), then this is where you can set your desired Worker SID. See section below for more detail.
 
-If the Function executes successfully, you should receive a `200 OK` response with a response body containing details on the Chat Channel and Proxy Session.
+If the Function executes successfully, you should receive a `200 OK` response with a response body containing details on the Chat Channel and Proxy Session (and optionally the initial chat message if provided).
 
 If the function does not execute successfully, you'll receive an HTTP error code and the response body will contain the details of why it failed.
 
@@ -67,6 +72,14 @@ When the Function executes successfully, the following resources are created:
 3. A new Proxy session tied to the chat channel. This ensure that any messages the agent adds to the chat are sent to the customer's mobile number via SMS, and any messages received from the customer's mobile number are added to the chat so the agent sees them.
 
 When the receiving agent accepts the task in Flex, they will be joined to the chat channel and any messages they add to the chat will be sent via SMS to the customer's mobile number.
+
+## Configuring Workflow to Route Task to Specific Worker
+If you need to deliver the created task to a specific agent (i.e. most likely the agent who performed the action that initiated the SMS task being created), then you will have included their worker SID in the `targetWorkerSid` parameter of your function REST API call.
+
+To complete the necessary workflow routing, you can add a filter to your Workflow to look for this task attribute, and act upon it using [Known Agent Routing](https://www.twilio.com/docs/taskrouter/workflow-configuration/known-agent-routing). See example filter below.
+
+<img width="700px" src="README_files/known-agent-routing.png"/>
+
 # Twilio Function: Initiate Outbound SMS (Fire-and-Forget)
 ## Overview
 

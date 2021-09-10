@@ -108,6 +108,20 @@ exports.handler = async function(context, event, callback) {
       throw error;      
     }
     
+    console.debug(`Creating Flex Proxy Session between Chat Channel SID '${chatChannelSid}' and toNumber '${toNumber}'`); 
+    
+    const participants = [
+      {
+        Identifier: toNumber,
+        ProxyIdentifier: fromNumber,
+        FriendlyName: toName
+      }, {
+        Identifier: chatChannelSid,
+        ProxyIdentifier: fromNumber,
+        FriendlyName: toName
+      },
+    ];
+    
     try {
       proxySession = await client.proxy.services(TWILIO_PROXY_SERVICE_SID)
         .sessions

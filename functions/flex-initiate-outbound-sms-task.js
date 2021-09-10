@@ -14,8 +14,9 @@ exports.handler = async function(context, event, callback) {
     fromNumber,
     toName,
     toNumber,
+    sourceChatChannelSid,
     initialNotificationMessage,
-    sourceChatChannelSid
+    targetWorkerSid
   } = event;
   
   /**
@@ -70,7 +71,8 @@ exports.handler = async function(context, event, callback) {
       direction: 'outbound',
       name: toName,
       from: fromNumber,
-      sourceChatChannelSid
+      sourceChatChannelSid,
+      targetWorkerSid
       // Add any of your own desired attributes here
     };
 
